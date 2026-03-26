@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Directorio LAE | Valdivia Los Ríos</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <title>Directorio LAE | Servicios Valdivia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         * {
@@ -16,35 +14,77 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%);
             min-height: 100vh;
-            padding: 40px 24px;
+            position: relative;
+            overflow-x: hidden;
         }
 
-        /* Contenedor principal */
+        /* Elementos decorativos de fondo */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            right: -20%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(42,82,152,0.03) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: -30%;
+            left: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(30,60,114,0.03) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
         .container {
             max-width: 1400px;
             margin: 0 auto;
+            padding: 32px 24px;
+            position: relative;
+            z-index: 1;
         }
 
-        /* Header con gradiente azul (colores originales) */
+        /* Header con animación */
         .header {
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            border-radius: 32px;
-            padding: 40px 48px;
-            margin-bottom: 32px;
+            border-radius: 40px;
+            padding: 48px 56px;
+            margin-bottom: 40px;
             position: relative;
             overflow: hidden;
+            animation: slideDown 0.6s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .header::before {
             content: '';
             position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 400px;
-            height: 400px;
+            top: -30%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
             background: rgba(255,255,255,0.05);
             border-radius: 50%;
             pointer-events: none;
@@ -53,91 +93,123 @@
         .header::after {
             content: '';
             position: absolute;
-            bottom: -30%;
-            left: -10%;
-            width: 300px;
-            height: 300px;
+            bottom: -20%;
+            left: -5%;
+            width: 200px;
+            height: 200px;
             background: rgba(255,255,255,0.03);
             border-radius: 50%;
             pointer-events: none;
         }
 
-        .header-content {
-            position: relative;
-            z-index: 1;
+        .header h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
         }
 
-        .header h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 8px;
-            letter-spacing: -0.02em;
+        .header h1 i {
+            margin-right: 16px;
+            background: rgba(255,255,255,0.2);
+            padding: 12px;
+            border-radius: 20px;
+            font-size: 1.8rem;
         }
 
         .header .subtitle {
             font-size: 1rem;
-            color: rgba(255,255,255,0.85);
+            color: rgba(255,255,255,0.9);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
+            flex-wrap: wrap;
         }
 
         .header .subtitle i {
             font-size: 0.9rem;
         }
 
-        /* Tarjetas de estadísticas */
+        .header-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* Tarjetas de estadísticas con efecto glass */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-bottom: 32px;
+            gap: 24px;
+            margin-bottom: 40px;
+            animation: fadeInUp 0.6s ease 0.1s both;
         }
 
-        .stat-card-modern {
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 28px;
+            padding: 28px;
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            border: 1px solid rgba(255,255,255,0.5);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.05);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(30,60,114,0.15);
             background: white;
-            border-radius: 24px;
-            padding: 24px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
-            border: 1px solid rgba(0,0,0,0.05);
-        }
-
-        .stat-card-modern:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
         }
 
         .stat-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
         }
 
         .stat-header i {
-            font-size: 2rem;
-            color: #2a5298;
-            opacity: 0.7;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
 
         .stat-header span {
             font-size: 0.85rem;
-            color: #6c757d;
+            color: #64748b;
             font-weight: 500;
+            background: #f1f5f9;
+            padding: 4px 12px;
+            border-radius: 20px;
         }
 
-        .stat-number-modern {
-            font-size: 2.8rem;
-            font-weight: 700;
+        .stat-number {
+            font-size: 3.2rem;
+            font-weight: 800;
             color: #1e3c72;
             line-height: 1;
             margin-bottom: 8px;
         }
 
-        .stat-label-modern {
-            color: #6c757d;
+        .stat-label {
+            color: #64748b;
             font-size: 0.9rem;
             font-weight: 500;
         }
@@ -145,148 +217,125 @@
         /* Barra de acciones */
         .actions-bar {
             background: white;
-            border-radius: 20px;
-            padding: 20px 24px;
+            border-radius: 28px;
+            padding: 20px 28px;
             margin-bottom: 32px;
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
             gap: 20px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
             border: 1px solid rgba(0,0,0,0.05);
+            animation: fadeInUp 0.6s ease 0.2s both;
         }
 
         .search-section {
             display: flex;
             gap: 12px;
             flex: 1;
-            max-width: 400px;
+            max-width: 450px;
         }
 
-        .search-input-wrapper {
+        .search-wrapper {
             flex: 1;
             position: relative;
         }
 
-        .search-input-wrapper i {
+        .search-wrapper i {
             position: absolute;
-            left: 16px;
+            left: 18px;
             top: 50%;
             transform: translateY(-50%);
-            color: #9ca3af;
+            color: #94a3b8;
             font-size: 1rem;
         }
 
-        .search-input-wrapper input {
+        .search-wrapper input {
             width: 100%;
-            padding: 12px 16px 12px 44px;
-            border: 1.5px solid #e5e7eb;
-            border-radius: 16px;
+            padding: 14px 20px 14px 48px;
+            border: 2px solid #e2e8f0;
+            border-radius: 24px;
             font-size: 0.95rem;
-            font-family: 'Inter', sans-serif;
+            font-family: inherit;
             transition: all 0.3s;
-            background: #f9fafb;
+            background: #f8fafc;
         }
 
-        .search-input-wrapper input:focus {
+        .search-wrapper input:focus {
             outline: none;
             border-color: #2a5298;
             background: white;
-            box-shadow: 0 0 0 3px rgba(42,82,152,0.1);
+            box-shadow: 0 0 0 4px rgba(42,82,152,0.1);
         }
 
         .btn-search {
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             border: none;
-            padding: 0 24px;
-            border-radius: 16px;
+            padding: 0 28px;
+            border-radius: 24px;
             color: white;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
-            font-family: 'Inter', sans-serif;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            transition: all 0.3s;
+            font-family: inherit;
         }
 
         .btn-search:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(30,60,114,0.3);
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(30,60,114,0.3);
         }
 
-        .action-buttons-modern {
-            display: flex;
-            gap: 12px;
-        }
-
-        .btn-primary-modern {
-            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        .btn-add {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             border: none;
-            padding: 12px 24px;
-            border-radius: 16px;
+            padding: 14px 32px;
+            border-radius: 24px;
             color: white;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s;
-            font-family: 'Inter', sans-serif;
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 0.9rem;
-        }
-
-        .btn-primary-modern:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(40,167,69,0.3);
-        }
-
-        .btn-secondary-modern {
-            background: #f1f3f5;
-            border: 1px solid #e5e7eb;
-            padding: 12px 24px;
-            border-radius: 16px;
-            color: #495057;
-            font-weight: 600;
-            cursor: pointer;
+            gap: 10px;
             transition: all 0.3s;
-            font-family: 'Inter', sans-serif;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.9rem;
+            font-family: inherit;
+            font-size: 0.95rem;
         }
 
-        .btn-secondary-modern:hover {
-            background: #e9ecef;
-            border-color: #ced4da;
+        .btn-add:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(16,185,129,0.3);
         }
 
-        /* Filtros de categoría */
-        .filters-modern {
+        /* Filtros con efecto chip */
+        .filters {
             display: flex;
             flex-wrap: wrap;
             gap: 12px;
             margin-bottom: 32px;
+            animation: fadeInUp 0.6s ease 0.3s both;
         }
 
         .filter-chip {
             background: white;
-            border: 1.5px solid #e5e7eb;
-            padding: 10px 24px;
+            border: 2px solid #e2e8f0;
+            padding: 10px 28px;
             border-radius: 40px;
             cursor: pointer;
-            font-weight: 500;
-            font-size: 0.9rem;
+            font-weight: 600;
             transition: all 0.3s;
-            color: #495057;
-            font-family: 'Inter', sans-serif;
+            color: #475569;
+            font-family: inherit;
+            font-size: 0.9rem;
         }
 
         .filter-chip:hover {
             border-color: #2a5298;
-            background: #f8f9ff;
+            background: #f8fafc;
+            transform: translateY(-2px);
         }
 
         .filter-chip.active {
@@ -296,131 +345,134 @@
             box-shadow: 0 4px 12px rgba(42,82,152,0.3);
         }
 
-        /* Grid de tarjetas de instituciones */
-        .institutions-grid-modern {
+        /* Grid de tarjetas con animación */
+        .cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-            gap: 24px;
+            gap: 28px;
         }
 
-        .institution-card-modern {
+        .card {
             background: white;
-            border-radius: 24px;
+            border-radius: 28px;
             overflow: hidden;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(0,0,0,0.05);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            animation: fadeInUp 0.5s ease;
+            position: relative;
         }
 
-        .institution-card-modern:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 24px 48px rgba(0,0,0,0.12);
         }
 
         .card-header {
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            padding: 20px 24px;
+            padding: 24px 28px;
             position: relative;
+            overflow: hidden;
+        }
+
+        .card-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 150px;
+            height: 150px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 50%;
         }
 
         .card-header h3 {
             color: white;
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 8px;
+            font-size: 1.35rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 1;
         }
 
         .category-tag {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
             background: rgba(255,255,255,0.2);
-            padding: 4px 12px;
-            border-radius: 20px;
+            padding: 6px 16px;
+            border-radius: 40px;
             font-size: 0.75rem;
-            font-weight: 500;
+            font-weight: 600;
             color: white;
+            position: relative;
+            z-index: 1;
         }
 
         .card-body {
-            padding: 24px;
+            padding: 24px 28px;
+            background: white;
         }
 
         .info-row {
             display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 16px;
-            padding: 8px 0;
-            border-bottom: 1px solid #f0f0f0;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 18px;
+            padding: 6px 0;
+            border-bottom: 1px solid #f1f5f9;
         }
 
         .info-row i {
-            width: 24px;
+            width: 28px;
             color: #2a5298;
             font-size: 1rem;
+            margin-top: 2px;
         }
 
         .info-row .label {
-            font-weight: 600;
-            color: #495057;
+            font-weight: 700;
+            color: #334155;
             min-width: 80px;
             font-size: 0.85rem;
         }
 
         .info-row .value {
-            color: #6c757d;
+            color: #475569;
             font-size: 0.9rem;
             flex: 1;
+            line-height: 1.4;
         }
 
         .card-footer {
-            padding: 16px 24px 24px;
-            border-top: 1px solid #f0f0f0;
+            padding: 20px 28px 28px;
+            border-top: 1px solid #f1f5f9;
             display: flex;
             justify-content: flex-end;
         }
 
         .btn-delete {
-            background: #fff5f5;
-            border: 1px solid #f8d7da;
-            padding: 8px 20px;
-            border-radius: 12px;
-            color: #dc3545;
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            border: none;
+            padding: 10px 24px;
+            border-radius: 40px;
+            color: white;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
-            font-family: 'Inter', sans-serif;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            transition: all 0.3s;
+            font-family: inherit;
             font-size: 0.85rem;
         }
 
         .btn-delete:hover {
-            background: #dc3545;
-            color: white;
-            border-color: #dc3545;
+            transform: scale(1.02);
+            box-shadow: 0 6px 16px rgba(220,38,38,0.3);
         }
 
-        .empty-state {
-            text-align: center;
-            padding: 80px 20px;
-            background: white;
-            border-radius: 32px;
-            color: #9ca3af;
-        }
-
-        .empty-state i {
-            font-size: 4rem;
-            margin-bottom: 16px;
-            opacity: 0.5;
-        }
-
-        .empty-state p {
-            font-size: 1rem;
-        }
-
-        /* Modal moderno */
-        .modal-modern {
+        /* Modal elegante */
+        .modal {
             display: none;
             position: fixed;
             top: 0;
@@ -428,117 +480,143 @@
             width: 100%;
             height: 100%;
             background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(4px);
+            backdrop-filter: blur(8px);
             justify-content: center;
             align-items: center;
             z-index: 1000;
+            animation: fadeIn 0.3s ease;
         }
 
-        .modal-content-modern {
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
             background: white;
-            border-radius: 32px;
+            border-radius: 40px;
             width: 90%;
             max-width: 550px;
-            max-height: 90vh;
+            max-height: 85vh;
             overflow-y: auto;
-            animation: modalFadeIn 0.3s ease;
+            animation: modalSlideIn 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
         }
 
-        @keyframes modalFadeIn {
+        @keyframes modalSlideIn {
             from {
                 opacity: 0;
-                transform: scale(0.95);
+                transform: scale(0.95) translateY(-20px);
             }
             to {
                 opacity: 1;
-                transform: scale(1);
+                transform: scale(1) translateY(0);
             }
         }
 
-        .modal-header-modern {
+        .modal-header {
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            padding: 24px 28px;
+            padding: 28px 32px;
             color: white;
         }
 
-        .modal-header-modern h3 {
-            font-size: 1.5rem;
+        .modal-header h3 {
+            font-size: 1.6rem;
             font-weight: 700;
-            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
-        .modal-header-modern p {
+        .modal-header p {
             opacity: 0.8;
             font-size: 0.85rem;
+            margin-top: 8px;
         }
 
-        .modal-body-modern {
-            padding: 28px;
+        .modal-body {
+            padding: 32px;
         }
 
-        .form-group-modern {
-            margin-bottom: 20px;
+        .form-group {
+            margin-bottom: 24px;
         }
 
-        .form-group-modern label {
+        .form-group label {
             display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
+            margin-bottom: 10px;
+            font-weight: 700;
             color: #1e3c72;
             font-size: 0.85rem;
+            letter-spacing: 0.3px;
         }
 
-        .form-group-modern input,
-        .form-group-modern select,
-        .form-group-modern textarea {
+        .form-group label i {
+            margin-right: 8px;
+        }
+
+        .form-group input,
+        .form-group select {
             width: 100%;
-            padding: 12px 16px;
-            border: 1.5px solid #e5e7eb;
-            border-radius: 16px;
+            padding: 14px 18px;
+            border: 2px solid #e2e8f0;
+            border-radius: 20px;
             font-size: 0.95rem;
-            font-family: 'Inter', sans-serif;
+            font-family: inherit;
             transition: all 0.3s;
-            background: #f9fafb;
+            background: #f8fafc;
         }
 
-        .form-group-modern input:focus,
-        .form-group-modern select:focus,
-        .form-group-modern textarea:focus {
+        .form-group input:focus,
+        .form-group select:focus {
             outline: none;
             border-color: #2a5298;
             background: white;
-            box-shadow: 0 0 0 3px rgba(42,82,152,0.1);
+            box-shadow: 0 0 0 4px rgba(42,82,152,0.1);
         }
 
-        .modal-footer-modern {
-            padding: 20px 28px 28px;
+        .modal-footer {
+            padding: 24px 32px 32px;
             display: flex;
-            gap: 12px;
+            gap: 16px;
             justify-content: flex-end;
-            border-top: 1px solid #f0f0f0;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 80px 40px;
+            background: white;
+            border-radius: 40px;
+            color: #94a3b8;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-state p {
+            font-size: 1rem;
         }
 
         @media (max-width: 768px) {
-            body {
+            .container {
                 padding: 20px 16px;
             }
-            
             .header {
-                padding: 28px 24px;
+                padding: 32px 24px;
             }
-            
             .header h1 {
-                font-size: 1.5rem;
+                font-size: 1.6rem;
             }
-            
-            .institutions-grid-modern {
+            .cards-grid {
                 grid-template-columns: 1fr;
             }
-            
             .actions-bar {
                 flex-direction: column;
             }
-            
             .search-section {
                 max-width: 100%;
             }
@@ -547,76 +625,72 @@
 </head>
 <body>
     <div class="container">
-        <!-- Header elegante -->
+        <!-- Header Elegante -->
         <div class="header">
-            <div class="header-content">
-                <h1>
-                    <i class="fas fa-building" style="margin-right: 12px;"></i>
-                    Directorio de Servicios LAE
-                </h1>
-                <div class="subtitle">
-                    <i class="fas fa-map-marker-alt"></i>
-                    Valdivia · Los Ríos
-                    <span style="margin: 0 8px;">•</span>
-                    <i class="fas fa-database"></i>
-                    Módulo de Consultas
-                </div>
+            <h1>
+                <i class="fas fa-landmark"></i>
+                Directorio de Servicios LAE
+            </h1>
+            <div class="subtitle">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>Valdivia · Región de Los Ríos</span>
+                <span class="header-badge">
+                    <i class="fas fa-database"></i> Datos en tiempo real
+                </span>
+                <span class="header-badge">
+                    <i class="fas fa-users"></i> Colaborativo
+                </span>
             </div>
         </div>
 
-        <!-- Estadísticas (sin módulo activas) -->
+        <!-- Estadísticas Dinámicas -->
         <div class="stats-grid">
-            <div class="stat-card-modern">
+            <div class="stat-card">
                 <div class="stat-header">
-                    <i class="fas fa-hospital"></i>
-                    <span>Total registradas</span>
+                    <i class="fas fa-building-circle-check"></i>
+                    <span>Total</span>
                 </div>
-                <div class="stat-number-modern" id="totalCount">0</div>
-                <div class="stat-label-modern">Instituciones en el directorio</div>
+                <div class="stat-number" id="totalCount">0</div>
+                <div class="stat-label">Instituciones registradas</div>
             </div>
-            <div class="stat-card-modern">
+            <div class="stat-card">
                 <div class="stat-header">
-                    <i class="fas fa-chart-line"></i>
-                    <span>Última actualización</span>
+                    <i class="fas fa-clock"></i>
+                    <span>Actualización</span>
                 </div>
-                <div class="stat-number-modern" style="font-size: 1.2rem;" id="lastUpdate">Hoy</div>
-                <div class="stat-label-modern">Datos en tiempo real</div>
+                <div class="stat-number" style="font-size: 1.2rem;" id="lastUpdate">Hoy</div>
+                <div class="stat-label">Sincronización automática</div>
             </div>
         </div>
 
-        <!-- Barra de acciones -->
+        <!-- Barra de Acciones -->
         <div class="actions-bar">
             <div class="search-section">
-                <div class="search-input-wrapper">
+                <div class="search-wrapper">
                     <i class="fas fa-search"></i>
-                    <input type="text" id="searchInput" placeholder="Buscar por nombre...">
+                    <input type="text" id="searchInput" placeholder="Buscar institución por nombre...">
                 </div>
                 <button class="btn-search" onclick="buscarInstituciones()">
                     <i class="fas fa-search"></i> Buscar
                 </button>
             </div>
-            <div class="action-buttons-modern">
-                <button class="btn-primary-modern" onclick="abrirModalAgregar()">
-                    <i class="fas fa-plus-circle"></i> Agregar Servicio
-                </button>
-                <button class="btn-secondary-modern" onclick="configurarBaseDatos()">
-                    <i class="fas fa-database"></i> Configurar
-                </button>
-            </div>
+            <button class="btn-add" onclick="abrirModal()">
+                <i class="fas fa-plus-circle"></i> Agregar Servicio
+            </button>
         </div>
 
-        <!-- Filtros de categoría -->
-        <div class="filters-modern" id="filters">
-            <div class="filter-chip active" data-categoria="Todas">Todas</div>
-            <div class="filter-chip" data-categoria="Salud">Salud</div>
-            <div class="filter-chip" data-categoria="Educación">Educación</div>
-            <div class="filter-chip" data-categoria="Gobierno">Gobierno</div>
-            <div class="filter-chip" data-categoria="Social">Social</div>
-            <div class="filter-chip" data-categoria="Transporte">Transporte</div>
+        <!-- Filtros por Categoría -->
+        <div class="filters" id="filters">
+            <div class="filter-chip active" data-categoria="Todas">📋 Todas</div>
+            <div class="filter-chip" data-categoria="Salud">🏥 Salud</div>
+            <div class="filter-chip" data-categoria="Educación">📚 Educación</div>
+            <div class="filter-chip" data-categoria="Gobierno">🏛️ Gobierno</div>
+            <div class="filter-chip" data-categoria="Social">🤝 Social</div>
+            <div class="filter-chip" data-categoria="Transporte">🚌 Transporte</div>
         </div>
 
-        <!-- Grid de instituciones -->
-        <div id="institutionsContainer" class="institutions-grid-modern">
+        <!-- Contenedor de Tarjetas -->
+        <div id="cardsContainer" class="cards-grid">
             <div class="empty-state">
                 <i class="fas fa-spinner fa-spin"></i>
                 <p>Cargando instituciones...</p>
@@ -624,167 +698,160 @@
         </div>
     </div>
 
-    <!-- Modal moderno -->
-    <div id="modal" class="modal-modern">
-        <div class="modal-content-modern">
-            <div class="modal-header-modern">
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
                 <h3><i class="fas fa-plus-circle"></i> Agregar Institución</h3>
                 <p>Completa los datos del nuevo servicio</p>
             </div>
-            <div class="modal-body-modern">
-                <div class="form-group-modern">
+            <div class="modal-body">
+                <div class="form-group">
                     <label><i class="fas fa-building"></i> Nombre de la institución *</label>
                     <input type="text" id="modalNombre" placeholder="Ej: Hospital Base Valdivia">
                 </div>
-                <div class="form-group-modern">
+                <div class="form-group">
                     <label><i class="fas fa-tag"></i> Categoría</label>
                     <select id="modalCategoria">
-                        <option value="Salud">Salud</option>
-                        <option value="Educación">Educación</option>
-                        <option value="Gobierno">Gobierno</option>
-                        <option value="Social">Social</option>
-                        <option value="Transporte">Transporte</option>
+                        <option value="Salud">🏥 Salud</option>
+                        <option value="Educación">📚 Educación</option>
+                        <option value="Gobierno">🏛️ Gobierno</option>
+                        <option value="Social">🤝 Social</option>
+                        <option value="Transporte">🚌 Transporte</option>
                     </select>
                 </div>
-                <div class="form-group-modern">
+                <div class="form-group">
                     <label><i class="fas fa-shortcode"></i> Sigla</label>
                     <input type="text" id="modalSigla" placeholder="Ej: HP">
                 </div>
-                <div class="form-group-modern">
+                <div class="form-group">
                     <label><i class="fas fa-location-dot"></i> Dirección</label>
                     <input type="text" id="modalDireccion" placeholder="Ej: Los Ñandús 721">
                 </div>
-                <div class="form-group-modern">
+                <div class="form-group">
                     <label><i class="fas fa-phone"></i> Teléfono</label>
                     <input type="text" id="modalTelefono" placeholder="Ej: +56 9 1234 5678">
                 </div>
-                <div class="form-group-modern">
+                <div class="form-group">
                     <label><i class="fas fa-user"></i> Encargado</label>
                     <input type="text" id="modalEncargado" placeholder="Nombre del responsable">
                 </div>
             </div>
-            <div class="modal-footer-modern">
-                <button class="btn-secondary-modern" onclick="cerrarModal()">
-                    <i class="fas fa-times"></i> Cancelar
-                </button>
-                <button class="btn-primary-modern" onclick="guardarInstitucion()">
-                    <i class="fas fa-save"></i> Guardar
-                </button>
+            <div class="modal-footer">
+                <button class="btn-search" onclick="cerrarModal()" style="background: #64748b;">Cancelar</button>
+                <button class="btn-add" onclick="guardarInstitucion()">Guardar</button>
             </div>
         </div>
     </div>
 
-    <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // Configuración de Supabase
+        // Configuración Supabase
         const supabaseUrl = 'https://qretisqnxujcdcbsfxno.supabase.co';
         const supabaseKey = 'sb_publishable_j_q9B80XokJo-eTgjqHC2Q_y_P01BMH';
         const supabase = supabase.createClient(supabaseUrl, supabaseKey);
-
-        const TABLA = 'servicios';
         
-        let todasLasInstituciones = [];
+        let todosLosDatos = [];
         let categoriaActiva = 'Todas';
-        let textoBusqueda = '';
+        let busquedaActual = '';
 
-        async function cargarInstituciones() {
+        // Cargar datos
+        async function cargarDatos() {
             try {
                 const { data, error } = await supabase
-                    .from(TABLA)
+                    .from('servicios')
                     .select('*')
                     .order('created_at', { ascending: false });
 
                 if (error) throw error;
 
-                todasLasInstituciones = data || [];
+                todosLosDatos = data || [];
+                document.getElementById('totalCount').innerHTML = todosLosDatos.length;
+                document.getElementById('lastUpdate').innerHTML = new Date().toLocaleDateString('es-CL', { day: 'numeric', month: 'long', year: 'numeric' });
                 filtrarYMostrar();
-                
-                // Actualizar fecha
-                const ahora = new Date();
-                document.getElementById('lastUpdate').innerHTML = ahora.toLocaleDateString('es-CL');
             } catch (error) {
                 console.error('Error:', error);
-                document.getElementById('institutionsContainer').innerHTML = `
+                document.getElementById('cardsContainer').innerHTML = `
                     <div class="empty-state">
                         <i class="fas fa-exclamation-triangle"></i>
-                        <p>Error al cargar datos. Verifica la conexión.</p>
+                        <p>Error al cargar datos: ${error.message}</p>
                     </div>
                 `;
             }
         }
 
+        // Filtrar y mostrar
         function filtrarYMostrar() {
-            let filtradas = [...todasLasInstituciones];
+            let filtrados = [...todosLosDatos];
             
             if (categoriaActiva !== 'Todas') {
-                filtradas = filtradas.filter(inst => inst.categoria === categoriaActiva);
+                filtrados = filtrados.filter(i => i.categoria === categoriaActiva);
             }
             
-            if (textoBusqueda) {
-                filtradas = filtradas.filter(inst => 
-                    inst.nombre?.toLowerCase().includes(textoBusqueda.toLowerCase())
+            if (busquedaActual) {
+                filtrados = filtrados.filter(i => 
+                    i.nombre && i.nombre.toLowerCase().includes(busquedaActual.toLowerCase())
                 );
             }
             
-            document.getElementById('totalCount').textContent = todasLasInstituciones.length;
-            mostrarInstituciones(filtradas);
+            mostrarTarjetas(filtrados);
         }
 
-        function mostrarInstituciones(instituciones) {
-            const container = document.getElementById('institutionsContainer');
+        // Mostrar tarjetas con botón eliminar
+        function mostrarTarjetas(items) {
+            const container = document.getElementById('cardsContainer');
             
-            if (instituciones.length === 0) {
+            if (items.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state">
                         <i class="fas fa-inbox"></i>
                         <p>No hay instituciones registradas</p>
-                        <p style="font-size: 0.85rem; margin-top: 8px;">Haz clic en "Agregar Servicio" para comenzar</p>
+                        <p style="font-size: 0.85rem; margin-top: 12px;">Haz clic en "Agregar Servicio" para comenzar</p>
                     </div>
                 `;
                 return;
             }
             
-            container.innerHTML = instituciones.map(inst => `
-                <div class="institution-card-modern">
+            container.innerHTML = items.map(item => `
+                <div class="card">
                     <div class="card-header">
-                        <h3>${escapeHtml(inst.nombre)}</h3>
+                        <h3>${escapeHtml(item.nombre)}</h3>
                         <span class="category-tag">
-                            <i class="fas fa-folder"></i> ${escapeHtml(inst.categoria)}
+                            <i class="fas fa-folder"></i> ${escapeHtml(item.categoria)}
                         </span>
                     </div>
                     <div class="card-body">
-                        ${inst.sigla ? `
+                        ${item.sigla ? `
                         <div class="info-row">
                             <i class="fas fa-shortcode"></i>
-                            <span class="label">Sigla:</span>
-                            <span class="value">${escapeHtml(inst.sigla)}</span>
+                            <span class="label">Sigla</span>
+                            <span class="value">${escapeHtml(item.sigla)}</span>
                         </div>
                         ` : ''}
-                        ${inst.direccion ? `
+                        ${item.direccion ? `
                         <div class="info-row">
                             <i class="fas fa-location-dot"></i>
-                            <span class="label">Dirección:</span>
-                            <span class="value">${escapeHtml(inst.direccion)}</span>
+                            <span class="label">Dirección</span>
+                            <span class="value">${escapeHtml(item.direccion)}</span>
                         </div>
                         ` : ''}
-                        ${inst.telefono ? `
+                        ${item.telefono ? `
                         <div class="info-row">
                             <i class="fas fa-phone"></i>
-                            <span class="label">Teléfono:</span>
-                            <span class="value">${escapeHtml(inst.telefono)}</span>
+                            <span class="label">Teléfono</span>
+                            <span class="value">${escapeHtml(item.telefono)}</span>
                         </div>
                         ` : ''}
-                        ${inst.encargado ? `
+                        ${item.encargado ? `
                         <div class="info-row">
                             <i class="fas fa-user"></i>
-                            <span class="label">Encargado:</span>
-                            <span class="value">${escapeHtml(inst.encargado)}</span>
+                            <span class="label">Encargado</span>
+                            <span class="value">${escapeHtml(item.encargado)}</span>
                         </div>
                         ` : ''}
                     </div>
                     <div class="card-footer">
-                        <button class="btn-delete" onclick="eliminarInstitucion('${inst.id}')">
+                        <button class="btn-delete" onclick="eliminarInstitucion('${item.id}')">
                             <i class="fas fa-trash-alt"></i> Eliminar
                         </button>
                     </div>
@@ -792,33 +859,57 @@
             `).join('');
         }
 
-        async function agregarInstitucion(datos) {
+        // Guardar institución
+        async function guardarInstitucion() {
+            const nombre = document.getElementById('modalNombre').value.trim();
+            if (!nombre) {
+                alert('El nombre de la institución es obligatorio');
+                return;
+            }
+            
+            const nueva = {
+                nombre: nombre,
+                categoria: document.getElementById('modalCategoria').value,
+                sigla: document.getElementById('modalSigla').value,
+                direccion: document.getElementById('modalDireccion').value,
+                telefono: document.getElementById('modalTelefono').value,
+                encargado: document.getElementById('modalEncargado').value
+            };
+            
             try {
-                const { error } = await supabase.from(TABLA).insert([datos]);
+                const { error } = await supabase.from('servicios').insert([nueva]);
                 if (error) throw error;
-                await cargarInstituciones();
-                return true;
+                
+                alert('✅ Institución agregada correctamente');
+                cerrarModal();
+                cargarDatos();
             } catch (error) {
                 alert('Error: ' + error.message);
-                return false;
             }
         }
 
+        // Eliminar institución
         async function eliminarInstitucion(id) {
-            if (!confirm('¿Eliminar esta institución?')) return;
+            if (!confirm('¿Estás segura de eliminar esta institución?\nEsta acción no se puede deshacer.')) return;
+            
             try {
-                await supabase.from(TABLA).delete().eq('id', id);
-                await cargarInstituciones();
+                const { error } = await supabase.from('servicios').delete().eq('id', id);
+                if (error) throw error;
+                
+                alert('✅ Institución eliminada correctamente');
+                cargarDatos();
             } catch (error) {
                 alert('Error: ' + error.message);
             }
         }
 
+        // Buscar
         function buscarInstituciones() {
-            textoBusqueda = document.getElementById('searchInput').value;
+            busquedaActual = document.getElementById('searchInput').value;
             filtrarYMostrar();
         }
 
+        // Configurar filtros
         function configurarFiltros() {
             document.querySelectorAll('.filter-chip').forEach(chip => {
                 chip.addEventListener('click', () => {
@@ -830,7 +921,8 @@
             });
         }
 
-        function abrirModalAgregar() {
+        // Modal
+        function abrirModal() {
             document.getElementById('modal').style.display = 'flex';
             document.getElementById('modalNombre').value = '';
             document.getElementById('modalCategoria').value = 'Salud';
@@ -844,30 +936,6 @@
             document.getElementById('modal').style.display = 'none';
         }
 
-        async function guardarInstitucion() {
-            const nombre = document.getElementById('modalNombre').value.trim();
-            if (!nombre) {
-                alert('Por favor ingresa el nombre de la institución');
-                return;
-            }
-            
-            const nueva = {
-                nombre: nombre,
-                categoria: document.getElementById('modalCategoria').value,
-                sigla: document.getElementById('modalSigla').value,
-                direccion: document.getElementById('modalDireccion').value,
-                telefono: document.getElementById('modalTelefono').value,
-                encargado: document.getElementById('modalEncargado').value
-            };
-            
-            await agregarInstitucion(nueva);
-            cerrarModal();
-        }
-
-        function configurarBaseDatos() {
-            window.open('https://supabase.com/dashboard', '_blank');
-        }
-
         function escapeHtml(text) {
             if (!text) return '';
             const div = document.createElement('div');
@@ -875,12 +943,14 @@
             return div.innerHTML;
         }
 
+        // Eventos
         document.getElementById('searchInput').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') buscarInstituciones();
         });
 
+        // Iniciar
         configurarFiltros();
-        cargarInstituciones();
+        cargarDatos();
     </script>
 </body>
 </html>

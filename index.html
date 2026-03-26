@@ -160,11 +160,6 @@
             padding: 48px;
             color: #6b7280;
         }
-        @media (max-width: 640px) {
-            .container { padding: 20px; }
-            .actions { flex-direction: column; align-items: stretch; }
-            .search-box { flex-direction: column; }
-        }
     </style>
 </head>
 <body>
@@ -195,13 +190,13 @@
     </div>
 
     <div id="cardsContainer" class="cards-grid">
-        <div class="empty">Cargando...</div>
+        <div class="empty">Cargando instituciones...</div>
     </div>
 </div>
 
 <div id="modal" class="modal">
     <div class="modal-content">
-        <h3>Agregar Institución</h3>
+        <h3>➕ Agregar Institución</h3>
         <input type="text" id="nombre" placeholder="Nombre *">
         <select id="categoria">
             <option>Salud</option><option>Educación</option><option>Gobierno</option>
@@ -218,49 +213,57 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-    // ==================== CONFIGURACIÓN ====================
+    // Configuración de Supabase
     const SUPABASE_URL = 'https://qretisqnxujcdcbsfxno.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_j_q9B80XokJo-eTgjqHC2Q_y_P01BMH';
-    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     let allItems = [];
     let currentCategory = 'Todas';
     let currentSearch = '';
 
-    // ==================== FUNCIONES PRINCIPALES ====================
+    // Cargar datos desde Supabase
     async function loadData() {
         try {
-            const { data, error } = await supabase
+            const { data, error } = await supabaseClient
                 .from('servicios')
                 .select('*')
                 .order('created_at', { ascending: false });
+            
             if (error) throw error;
+            
             allItems = data || [];
             document.getElementById('totalCount').innerText = allItems.length;
             filterAndRender();
         } catch (err) {
-            console.error(err);
-            document.getElementById('cardsContainer').innerHTML = `<div class="empty">Error: ${err.message}</div>`;
+            console.error('Error cargando datos:', err);
+            document.getElementById('cardsContainer').innerHTML = `<div class="empty">Error al cargar: ${err.message}</div>`;
         }
     }
 
+    // Filtrar según categoría y búsqueda
     function filterAndRender() {
         let filtered = [...allItems];
+        
         if (currentCategory !== 'Todas') {
             filtered = filtered.filter(item => item.categoria === currentCategory);
         }
+        
         if (currentSearch.trim() !== '') {
-            filtered = filtered.filter(item =>
+            filtered = filtered.filter(item => 
                 item.nombre && item.nombre.toLowerCase().includes(currentSearch.toLowerCase())
             );
         }
+        
         renderCards(filtered);
     }
 
+    // Mostrar tarjetas
     function renderCards(items) {
         const container = document.getElementById('cardsContainer');
+        
         if (items.length === 0) {
-            container.innerHTML = '<div class="empty">No hay instituciones registradas</div>';
+            container.innerHTML = '<div class="empty">📭 No hay instituciones registradas</div>';
             return;
         }
 
@@ -276,49 +279,54 @@
             </div>
         `).join('');
 
-        // Agregar eventos de eliminación a cada botón
+        // Agregar eventos de eliminación
         document.querySelectorAll('.btn-danger').forEach(btn => {
-            btn.addEventListener('click', (e) => {
+            btn.addEventListener('click', async (e) => {
                 const id = btn.getAttribute('data-id');
-                deleteItem(id);
+                if (confirm('¿Eliminar esta institución?')) {
+                    try {
+                        const { error } = await supabaseClient
+                            .from('servicios')
+                            .delete()
+                            .eq('id', id);
+                        if (error) throw error;
+                        await loadData();
+                    } catch (err) {
+                        alert('Error al eliminar: ' + err.message);
+                    }
+                }
             });
         });
     }
 
-    async function deleteItem(id) {
-        if (!confirm('¿Eliminar esta institución?')) return;
+    // Agregar nueva institución
+    async function addNewItem(item) {
         try {
-            const { error } = await supabase.from('servicios').delete().eq('id', id);
-            if (error) throw error;
-            await loadData();
-        } catch (err) {
-            alert('Error: ' + err.message);
-        }
-    }
-
-    async function addItem(newItem) {
-        try {
-            const { error } = await supabase.from('servicios').insert([newItem]);
+            const { error } = await supabaseClient
+                .from('servicios')
+                .insert([item]);
             if (error) throw error;
             await loadData();
             return true;
         } catch (err) {
-            alert('Error: ' + err.message);
+            alert('Error al agregar: ' + err.message);
             return false;
         }
     }
 
-    // ==================== MANEJADORES DE UI ====================
+    // Configurar todos los eventos
     function setupEventListeners() {
         // Búsqueda
         const searchInput = document.getElementById('searchInput');
         const searchBtn = document.getElementById('searchBtn');
-        const searchHandler = () => {
+        const performSearch = () => {
             currentSearch = searchInput.value;
             filterAndRender();
         };
-        searchBtn.addEventListener('click', searchHandler);
-        searchInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') searchHandler(); });
+        searchBtn.addEventListener('click', performSearch);
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') performSearch();
+        });
 
         // Filtros por categoría
         document.querySelectorAll('.filter').forEach(filter => {
@@ -350,13 +358,15 @@
                 alert('El nombre es obligatorio');
                 return;
             }
+            
             const newItem = {
                 nombre: nombre,
                 categoria: document.getElementById('categoria').value,
                 direccion: document.getElementById('direccion').value,
                 telefono: document.getElementById('telefono').value
             };
-            const success = await addItem(newItem);
+            
+            const success = await addNewItem(newItem);
             if (success) {
                 modal.style.display = 'none';
                 document.getElementById('nombre').value = '';
@@ -376,7 +386,7 @@
         });
     }
 
-    // ==================== INICIO ====================
+    // Iniciar
     setupEventListeners();
     loadData();
 </script>

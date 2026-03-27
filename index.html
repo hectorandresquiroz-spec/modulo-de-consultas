@@ -181,12 +181,12 @@
     </div>
 
     <div class="filters" id="filtersContainer">
-        <div class="filter active" data-cat="Todas">Todas</div>
-        <div class="filter" data-cat="Salud">Salud</div>
-        <div class="filter" data-cat="Educación">Educación</div>
-        <div class="filter" data-cat="Gobierno">Gobierno</div>
-        <div class="filter" data-cat="Social">Social</div>
-        <div class="filter" data-cat="Transporte">Transporte</div>
+        <div class="filter active" data-tipo="Todos">Todos</div>
+        <div class="filter" data-tipo="salud">🏥 Salud</div>
+        <div class="filter" data-tipo="educación">📚 Educación</div>
+        <div class="filter" data-tipo="gobierno">🏛️ Gobierno</div>
+        <div class="filter" data-tipo="social">🤝 Social</div>
+        <div class="filter" data-tipo="transporte">🚌 Transporte</div>
     </div>
 
     <div id="cardsContainer" class="cards-grid">
@@ -198,12 +198,21 @@
     <div class="modal-content">
         <h3>➕ Agregar Institución</h3>
         <input type="text" id="nombre" placeholder="Nombre *">
-        <select id="categoria">
-            <option>Salud</option><option>Educación</option><option>Gobierno</option>
-            <option>Social</option><option>Transporte</option>
+        <input type="text" id="identificacion" placeholder="Identificación">
+        <select id="tipo">
+            <option value="salud">Salud</option>
+            <option value="educación">Educación</option>
+            <option value="gobierno">Gobierno</option>
+            <option value="social">Social</option>
+            <option value="transporte">Transporte</option>
+        </select>
+        <select id="estado">
+            <option value="activo">Activo</option>
+            <option value="inactivo">Inactivo</option>
         </select>
         <input type="text" id="direccion" placeholder="Dirección">
         <input type="text" id="telefono" placeholder="Teléfono">
+        <input type="email" id="correo" placeholder="Correo electrónico">
         <div class="modal-buttons">
             <button id="cancelBtn">Cancelar</button>
             <button class="btn-success" id="saveBtn">Guardar</button>
@@ -213,16 +222,14 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-    // Configuración de Supabase
     const SUPABASE_URL = 'https://qretisqnxujcdcbsfxno.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_j_q9B80XokJo-eTgjqHC2Q_y_P01BMH';
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     let allItems = [];
-    let currentCategory = 'Todas';
+    let currentTipo = 'Todos';
     let currentSearch = '';
 
-    // Cargar datos desde Supabase
     async function loadData() {
         try {
             const { data, error } = await supabaseClient
@@ -236,17 +243,16 @@
             document.getElementById('totalCount').innerText = allItems.length;
             filterAndRender();
         } catch (err) {
-            console.error('Error cargando datos:', err);
-            document.getElementById('cardsContainer').innerHTML = `<div class="empty">Error al cargar: ${err.message}</div>`;
+            console.error('Error:', err);
+            document.getElementById('cardsContainer').innerHTML = `<div class="empty">Error: ${err.message}</div>`;
         }
     }
 
-    // Filtrar según categoría y búsqueda
     function filterAndRender() {
         let filtered = [...allItems];
         
-        if (currentCategory !== 'Todas') {
-            filtered = filtered.filter(item => item.categoria === currentCategory);
+        if (currentTipo !== 'Todos') {
+            filtered = filtered.filter(item => item.tipo === currentTipo);
         }
         
         if (currentSearch.trim() !== '') {
@@ -258,7 +264,6 @@
         renderCards(filtered);
     }
 
-    // Mostrar tarjetas
     function renderCards(items) {
         const container = document.getElementById('cardsContainer');
         
@@ -270,18 +275,20 @@
         container.innerHTML = items.map(item => `
             <div class="card">
                 <h3>${escapeHtml(item.nombre)}</h3>
-                <div class="category">${escapeHtml(item.categoria)}</div>
+                <div class="category">${escapeHtml(item.tipo || 'Sin categoría')}</div>
+                ${item.identificacion ? `<div class="info">🆔 ${escapeHtml(item.identificacion)}</div>` : ''}
                 ${item.direccion ? `<div class="info">📍 ${escapeHtml(item.direccion)}</div>` : ''}
                 ${item.telefono ? `<div class="info">📞 ${escapeHtml(item.telefono)}</div>` : ''}
+                ${item.correo_electronico ? `<div class="info">✉️ ${escapeHtml(item.correo_electronico)}</div>` : ''}
+                <div class="info">📊 Estado: ${escapeHtml(item.estado || 'activo')}</div>
                 <div class="card-footer">
                     <button class="btn-danger" data-id="${item.id}">🗑️ Eliminar</button>
                 </div>
             </div>
         `).join('');
 
-        // Agregar eventos de eliminación
         document.querySelectorAll('.btn-danger').forEach(btn => {
-            btn.addEventListener('click', async (e) => {
+            btn.addEventListener('click', async () => {
                 const id = btn.getAttribute('data-id');
                 if (confirm('¿Eliminar esta institución?')) {
                     try {
@@ -291,15 +298,15 @@
                             .eq('id', id);
                         if (error) throw error;
                         await loadData();
+                        alert('✅ Institución eliminada');
                     } catch (err) {
-                        alert('Error al eliminar: ' + err.message);
+                        alert('Error: ' + err.message);
                     }
                 }
             });
         });
     }
 
-    // Agregar nueva institución
     async function addNewItem(item) {
         try {
             const { error } = await supabaseClient
@@ -314,9 +321,7 @@
         }
     }
 
-    // Configurar todos los eventos
     function setupEventListeners() {
-        // Búsqueda
         const searchInput = document.getElementById('searchInput');
         const searchBtn = document.getElementById('searchBtn');
         const performSearch = () => {
@@ -328,17 +333,15 @@
             if (e.key === 'Enter') performSearch();
         });
 
-        // Filtros por categoría
         document.querySelectorAll('.filter').forEach(filter => {
             filter.addEventListener('click', () => {
                 document.querySelectorAll('.filter').forEach(f => f.classList.remove('active'));
                 filter.classList.add('active');
-                currentCategory = filter.getAttribute('data-cat');
+                currentTipo = filter.getAttribute('data-tipo');
                 filterAndRender();
             });
         });
 
-        // Modal
         const modal = document.getElementById('modal');
         const addBtn = document.getElementById('addBtn');
         const cancelBtn = document.getElementById('cancelBtn');
@@ -346,6 +349,13 @@
 
         addBtn.addEventListener('click', () => {
             modal.style.display = 'flex';
+            document.getElementById('nombre').value = '';
+            document.getElementById('identificacion').value = '';
+            document.getElementById('tipo').value = 'salud';
+            document.getElementById('estado').value = 'activo';
+            document.getElementById('direccion').value = '';
+            document.getElementById('telefono').value = '';
+            document.getElementById('correo').value = '';
         });
 
         cancelBtn.addEventListener('click', () => {
@@ -361,17 +371,18 @@
             
             const newItem = {
                 nombre: nombre,
-                categoria: document.getElementById('categoria').value,
+                identificacion: document.getElementById('identificacion').value,
+                tipo: document.getElementById('tipo').value,
+                estado: document.getElementById('estado').value,
                 direccion: document.getElementById('direccion').value,
-                telefono: document.getElementById('telefono').value
+                telefono: document.getElementById('telefono').value,
+                correo_electronico: document.getElementById('correo').value
             };
             
             const success = await addNewItem(newItem);
             if (success) {
                 modal.style.display = 'none';
-                document.getElementById('nombre').value = '';
-                document.getElementById('direccion').value = '';
-                document.getElementById('telefono').value = '';
+                alert('✅ Institución agregada correctamente');
             }
         });
     }
@@ -386,7 +397,6 @@
         });
     }
 
-    // Iniciar
     setupEventListeners();
     loadData();
 </script>

@@ -186,7 +186,9 @@
         <div class="filter" data-tipo="educación">📚 Educación</div>
         <div class="filter" data-tipo="gobierno">🏛️ Gobierno</div>
         <div class="filter" data-tipo="social">🤝 Social</div>
-        <div class="filter" data-tipo="transporte">🚌 Transporte</div>
+        <div class="filter" data-tipo="defensorias">⚖️ Defensorías</div>
+        <div class="filter" data-tipo="fiscalias">🔍 Fiscalías</div>
+        <div class="filter" data-tipo="tribunales">🏛️ Tribunales</div>
     </div>
 
     <div id="cardsContainer" class="cards-grid">
@@ -198,21 +200,18 @@
     <div class="modal-content">
         <h3>➕ Agregar Institución</h3>
         <input type="text" id="nombre" placeholder="Nombre *">
-        <input type="text" id="identificacion" placeholder="Identificación">
         <select id="tipo">
             <option value="salud">Salud</option>
             <option value="educación">Educación</option>
             <option value="gobierno">Gobierno</option>
             <option value="social">Social</option>
-            <option value="transporte">Transporte</option>
-        </select>
-        <select id="estado">
-            <option value="activo">Activo</option>
-            <option value="inactivo">Inactivo</option>
+            <option value="defensorias">Defensorías</option>
+            <option value="fiscalias">Fiscalías</option>
+            <option value="tribunales">Tribunales</option>
         </select>
         <input type="text" id="direccion" placeholder="Dirección">
         <input type="text" id="telefono" placeholder="Teléfono">
-        <input type="email" id="correo" placeholder="Correo electrónico">
+        <input type="email" id="email" placeholder="Email">
         <div class="modal-buttons">
             <button id="cancelBtn">Cancelar</button>
             <button class="btn-success" id="saveBtn">Guardar</button>
@@ -276,11 +275,9 @@
             <div class="card">
                 <h3>${escapeHtml(item.nombre)}</h3>
                 <div class="category">${escapeHtml(item.tipo || 'Sin categoría')}</div>
-                ${item.identificacion ? `<div class="info">🆔 ${escapeHtml(item.identificacion)}</div>` : ''}
                 ${item.direccion ? `<div class="info">📍 ${escapeHtml(item.direccion)}</div>` : ''}
                 ${item.telefono ? `<div class="info">📞 ${escapeHtml(item.telefono)}</div>` : ''}
-                ${item.correo_electronico ? `<div class="info">✉️ ${escapeHtml(item.correo_electronico)}</div>` : ''}
-                <div class="info">📊 Estado: ${escapeHtml(item.estado || 'activo')}</div>
+                ${item.email ? `<div class="info">✉️ ${escapeHtml(item.email)}</div>` : ''}
                 <div class="card-footer">
                     <button class="btn-danger" data-id="${item.id}">🗑️ Eliminar</button>
                 </div>
@@ -350,12 +347,10 @@
         addBtn.addEventListener('click', () => {
             modal.style.display = 'flex';
             document.getElementById('nombre').value = '';
-            document.getElementById('identificacion').value = '';
             document.getElementById('tipo').value = 'salud';
-            document.getElementById('estado').value = 'activo';
             document.getElementById('direccion').value = '';
             document.getElementById('telefono').value = '';
-            document.getElementById('correo').value = '';
+            document.getElementById('email').value = '';
         });
 
         cancelBtn.addEventListener('click', () => {
@@ -371,12 +366,10 @@
             
             const newItem = {
                 nombre: nombre,
-                identificacion: document.getElementById('identificacion').value,
                 tipo: document.getElementById('tipo').value,
-                estado: document.getElementById('estado').value,
                 direccion: document.getElementById('direccion').value,
                 telefono: document.getElementById('telefono').value,
-                correo_electronico: document.getElementById('correo').value
+                email: document.getElementById('email').value
             };
             
             const success = await addNewItem(newItem);
